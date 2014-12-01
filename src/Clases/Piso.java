@@ -16,10 +16,14 @@ public class Piso {
    ArrayList <Usuario>colaEspera;
    ArrayList <Integer> tamanosColaEspera;
    final int  MAXCOLA=10;
+   int numeroPiso;
    
-   public Piso(){
+   
+   
+   public Piso(int numeroPiso){
        colaEspera  = new ArrayList();
-       tamanosColaEspera = new ArrayList(); 
+       tamanosColaEspera = new ArrayList();
+       this.numeroPiso=numeroPiso;
    }
     public void agregarUsuarioCola(Usuario u){
         if(colaEspera.size()<=MAXCOLA){
@@ -43,5 +47,11 @@ public class Piso {
         }
         return (int) total/tamanosColaEspera.size();
     }
-    
+   public int getNumeroPiso(){
+       return numeroPiso;
+   } 
+   
+   public void setNumeroPiso(int numeroPiso){
+       this.numeroPiso=numeroPiso;
+   }
 }
