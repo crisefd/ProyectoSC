@@ -10,12 +10,18 @@ package Clases;
  * @author crisefd
  */
 public class Evento { 
-    public String tipo;
-    public int ocurrencia;
+    private String tipo;
+    private int ocurrencia;
     
     public Evento(String tipo, int ocurrencia){
         this.tipo = tipo;
         this.ocurrencia = ocurrencia;
               
+    }
+    public int getOc(){
+        return ocurrencia;
+    }
+    public String getTipo(){
+        return tipo;
     }
 }
