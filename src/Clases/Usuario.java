@@ -26,7 +26,7 @@ public class Usuario {
         Estado= pisoActual!=pisoSolicitado;
     }
     private void solicitarAscensor(){
-        Ascensor.recibirSolicitud(pisoSolicitado);
+        Simulador.recibirSolicitud(pisoSolicitado);
     }
     public void setPisoActual(int pisoActualIN){
         pisoActual=pisoActualIN;
