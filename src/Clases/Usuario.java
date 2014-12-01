@@ -7,10 +7,12 @@ package Clases;
 
 /**
  *
- * @author crisefd
+ * @author Shaitan
+ * 
  */
 public class Usuario {
     
     public int pisoActual, pisoSolicitado;
+    public String Estado; //si esta esperand, en viaje .
     
 }
