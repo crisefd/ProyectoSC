@@ -13,7 +13,9 @@ public class Simulador {
     
     volatile int reloj;
     int tiempoMax;
-    
+    static public void recibirSolicitud(int pisoDeseado){
+        pisoDeseado=0;
+    }
     public static void main(String[]args){
         
     }
