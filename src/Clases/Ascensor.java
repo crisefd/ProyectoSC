@@ -11,15 +11,14 @@ public class Ascensor {
 
     private int pisoActual, capacidadMax, montados;
     private int direccion;
-    ArrayList<Piso> PasajerosSuben, PasajerosBajan, Destinos;
+    ArrayList<Integer> listaMontados= new ArrayList();
 
     public Ascensor(int pisoactual) {
         this.pisoActual = pisoactual;
-        PasajerosSuben = new ArrayList<Piso>();
-        PasajerosBajan = new ArrayList<Piso>();
-        Destinos = new ArrayList<Piso>();
     }
+    
 
+    
     public int getCapacidadMax() {
         return capacidadMax;
     }
@@ -44,36 +43,15 @@ public class Ascensor {
         this.direccion = direccion;
     }
 
-    public ArrayList<Piso> getDestinos() {
-        return Destinos;
-    }
-
-    public void setDestinos(ArrayList<Piso> Destinos) {
-        this.Destinos = Destinos;
-    }
-
-    public ArrayList<Piso> getPasajerosBajan() {
-        return PasajerosBajan;
-    }
-
-    public void setPasajerosBajan(ArrayList<Piso> PasajerosBajan) {
-        this.PasajerosBajan = PasajerosBajan;
-    }
-
-    public ArrayList<Piso> getPasajerosSuben() {
-        return PasajerosSuben;
-    }
-
-    public void setPasajerosSuben(ArrayList<Piso> PasajerosSuben) {
-        this.PasajerosSuben = PasajerosSuben;
-    }
-    
     public void recogerUsuarios(int usuarios){
-      montados+=usuarios;
+        montados+=usuarios;
+        listaMontados.add(montados);
+    
     }
     
     public void bajarUsuarios(int usuarios){
       montados-=usuarios;
+      listaMontados.add(montados);
     }
     
     public void direccionarse(int direccion){
@@ -82,5 +60,14 @@ public class Ascensor {
     
     public void cambiarPiso(){
         pisoActual+=direccion;
+    }
+    
+    public int calcularPromedioMontados(){
+        int total=0;
+        
+        for(int n: listaMontados){
+           total+= n;
+        }
+        return (int) total/listaMontados.size();
     }
 }
