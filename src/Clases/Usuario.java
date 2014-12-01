@@ -25,6 +25,9 @@ public class Usuario {
         //verifica el piso actual si es el solicitado desaborda de lo contrario espera en ascensor.
         Estado= pisoActual!=pisoSolicitado;
     }
+    private void solicitarAscensor(){
+        Ascensor.recibirSolicitud(pisoSolicitado);
+    }
     public void setPisoActual(int pisoActualIN){
         pisoActual=pisoActualIN;
     }
