@@ -18,25 +18,49 @@ public class LEF extends ArrayList<Evento>{
         add(new Evento("L", 0));
     }
     
-    public void agregar(Evento ev){
+    public void agregarEvento(Evento ev){
+        buscarInsertar(ev, 0, size() - 1);
+        
+    }
+    
+    public Evento siguienteEvento(){
+        return remove(0);
+    }
+    
+    private int buscarInsertar(Evento ev, int i, int f){
+        int tam = f - i + 1;
+        int m = tam/2 - 1 + i;
+        if (tam == 1){
+            if (ev.getOc() < get(i).getOc()){
+                add(i, ev);
+            }else{
+                add(ev);
+            }
+            return 0;
+        }else{
+            
+            if(ev.getOc() < get(m).getOc()){
+                return buscarInsertar(ev, i, m);
+            }else{
+                return buscarInsertar(ev, m + 1, f);
+            }
+            
+        }
         
         
     }
     
-    private int searchPos(Evento ev, int i, int f){
-        int pos = 0;
-        int mid = (int)this.size()/2 - 1;
-        
-        if((mid + 1)*2 == 3){
-            
-        }
-        
-            if (ev.ocurrencia<this.get(mid).ocurrencia){
-                 
-            }
-        
-        
-        return pos;
-    }
+//    public static void main(String[]args){
+//        LEF LEF = new LEF();
+//        LEF.add(new Evento("H", 10));
+//        LEF.add(new Evento("H", 13));
+//        LEF.add(new Evento("H", 20));
+//        
+//        LEF.buscar_insertar(new Evento("H", 12), 0, 3);
+//        
+//        for(Evento ev: LEF){
+//            System.out.println(""+ev.getOc());
+//        }
+//    }
     
 }
