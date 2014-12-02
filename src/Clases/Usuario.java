@@ -16,7 +16,7 @@ public class Usuario {
     private boolean Estado; //true en el ascensor, false en la cola o desabordo.
     
     
-    private void SubirAscensor(int montados, int capacidadMax){
+    private void subirAscensor(int montados, int capacidadMax){
         
         //verifica la capcidad del ascensor y si la gente montada es menor aborda de lo contrario espera.
         Estado = montados<capacidadMax;
@@ -26,7 +26,7 @@ public class Usuario {
         Estado= pisoActual!=pisoSolicitado;
     }
     private void solicitarAscensor(){
-        Simulador.recibirSolicitud(pisoSolicitado);
+       // Simulador.recibirSolicitud(pisoSolicitado);
     }
     public void setPisoActual(int pisoActualIN){
         pisoActual=pisoActualIN;
