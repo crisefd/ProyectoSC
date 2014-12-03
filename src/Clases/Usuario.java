@@ -13,6 +13,7 @@ package Clases;
 public class Usuario {
     
     private int pisoActual, pisoSolicitado;
+    public static int latencia = 1;
     private boolean Estado; //true en el ascensor, false en la cola o desabordo.
     
     
