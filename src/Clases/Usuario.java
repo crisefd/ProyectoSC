@@ -37,4 +37,10 @@ public class Usuario {
     public boolean getEstado(){
         return Estado;
     }
+    
+    public Usuario(int pa, int ps){
+        pisoActual = pa;
+        pisoSolicitado = ps;
+        
+    }
 }
