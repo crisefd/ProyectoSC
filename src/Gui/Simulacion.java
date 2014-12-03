@@ -226,7 +226,7 @@ public class Simulacion extends javax.swing.JFrame {
         jLabel14.setText("Capacidad Ocupada Promedio");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        jLabel15.setText("0 Seg");
+        jLabel15.setText("0  Perso.");
 
         jButton4.setText("Mostrar");
 
@@ -238,9 +238,9 @@ public class Simulacion extends javax.swing.JFrame {
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jButton4)
                     .add(jLabel14))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
-                .add(jLabel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
+                .add(jLabel15)
+                .add(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
