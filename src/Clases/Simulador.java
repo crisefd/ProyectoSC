@@ -58,9 +58,22 @@ public class Simulador {
     public void simular(){
         inicializarVariables();
         while(reloj <= TIEMPOMAX){
-            
+            Evento ev = LEF.siguienteEvento();
+            ejecutarEvento(ev);
             
         }
+    }
+    
+    private void ejecutarEvento(Evento ev){
+        int oc = ev.getOc();
+        String tipo = ev.getTipo();
+        
+        if (tipo.equals("L")){
+            
+        }
+        
+            int ti = reloj = oc;
+        
     }
     
     private void inicializarVariables(){
