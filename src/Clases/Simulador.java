@@ -11,7 +11,7 @@ package Clases;
  */
 public class Simulador {
     
-    private int reloj;
+    private int reloj, numLlegadas = 0;
     private final int TIEMPOMAX = 500;
     private Ascensor ascensor;
     private Piso piso1, piso2, piso3, piso4, piso5, piso6;
@@ -68,8 +68,22 @@ public class Simulador {
         
     }
     
-    private void generarEventos(){
+    private void generarLlegadas(){
+        int numPiso = 1;
         
+        while(numPiso <= 6){
+            int t;
+            
+            if(numPiso == 1){
+                t = distribucionExponencial(0.0025, numLlegadas);
+            }else{
+                t = distribucionExponencial(0.002, numLlegadas);
+            }
+            
+            LEF.agregarEvento(new Evento("L", reloj + t));
+            numLlegadas++;
+            numPiso++;
+        }
     }
     public static void main(String[]args){
         
