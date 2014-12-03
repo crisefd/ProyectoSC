@@ -17,7 +17,7 @@ public class Piso {
    ArrayList <Integer> tamanosColaEspera;
    final int  MAXCOLA=10;
    int numeroPiso;
-   
+
    
    
    public Piso(int numeroPiso){
@@ -27,8 +27,8 @@ public class Piso {
    }
     public void agregarUsuarioCola(Usuario u){
         if(colaEspera.size()<=MAXCOLA){
-        colaEspera.add(u);
-        tamanosColaEspera.add(colaEspera.size());    
+            colaEspera.add(u);
+            tamanosColaEspera.add(colaEspera.size());    
         }
         
     }
