@@ -22,25 +22,32 @@ public class Simulador {
         return (int)Math.round(lambda* Math.exp(lambda*-1* x));
         
     }
-    private int generarNumPiso(){ 
-        int n = (int)Math.round(Math.random()*8);
+    private int generarNumPisoSolicitado(int pisoActual){ 
+        int pisoSolicitado = 0;
         
-        if (n <= 3){
+        
+         pisoSolicitado = (int)Math.round(Math.random()*8);
+         
+         while(pisoSolicitado == pisoActual){
+             pisoSolicitado = (int)Math.round(Math.random()*8);
+         }
+        
+        if (pisoSolicitado <= 3){
             return 1;
         }
-        if (n == 4){
+        if (pisoSolicitado == 4){
             return 2;
         }
-        if (n == 5){
+        if (pisoSolicitado == 5){
             return 3;
         }
-        if (n == 6){
+        if (pisoSolicitado == 6){
             return 4;
         }
-        if (n == 7){
+        if (pisoSolicitado == 7){
             return 5;
         }
-        if (n == 8){
+        if (pisoSolicitado == 8){
             return 6;
         }
         return 0;
@@ -69,47 +76,47 @@ public class Simulador {
     }
     
     private void generarLlegadas(){
-        int numPiso = 1;
+        int numPisoActual;
         int veces = 25;
         int v=0;
         while(v <= veces){
             int t;
-            numPiso = (int)Math.round(Math.random()*5) + 1;
-            if(numPiso == 1){
+            numPisoActual = (int)Math.round(Math.random()*5) + 1;
+            if(numPisoActual == 1){
                 t = distribucionExponencial(0.0025, numLlegadas);
-                int p = generarNumPiso();
-                piso1.agregarUsuarioCola(new Usuario(1, p));
+                int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                piso1.agregarUsuarioCola(new Usuario(1, numPisoSolicitado));
             }else{
-                if (numPiso == 2){
-                    int p = generarNumPiso();
-                    piso2.agregarUsuarioCola(new Usuario(2, p));
+                if (numPisoActual == 2){
+                    int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                    piso2.agregarUsuarioCola(new Usuario(2, numPisoSolicitado));
                 }
-                if (numPiso == 3){
-                    int p = generarNumPiso();
-                    piso3.agregarUsuarioCola(new Usuario(3, p));
+                if (numPisoActual == 3){
+                    int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                    piso3.agregarUsuarioCola(new Usuario(3, numPisoSolicitado));
                 }
-                if (numPiso == 4){
-                    int p = generarNumPiso();
-                    piso4.agregarUsuarioCola(new Usuario(4, p));            
+                if (numPisoActual == 4){
+                    int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                    piso4.agregarUsuarioCola(new Usuario(4, numPisoSolicitado));            
                 }
-                if (numPiso == 5){
-                    int p = generarNumPiso();
-                    piso4.agregarUsuarioCola(new Usuario(5, p));    
+                if (numPisoActual == 5){
+                    int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                    piso5.agregarUsuarioCola(new Usuario(5, numPisoSolicitado));    
                 }
-                if (numPiso == 6){
-                    int p = generarNumPiso();
-                    piso4.agregarUsuarioCola(new Usuario(6, p));    
+                if (numPisoActual == 6){
+                    int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
+                    piso6.agregarUsuarioCola(new Usuario(6, numPisoSolicitado));    
                 }
                 t = distribucionExponencial(0.002, numLlegadas);
             }
             
             LEF.agregarEvento(new Evento("L", reloj + t));
             numLlegadas++;
-            numPiso++;
+            numPisoActual++;
         }
     }
     
-    private void generarViaje(){
+    private void direccionarAscensor(){
         
     }
     public static void main(String[]args){
