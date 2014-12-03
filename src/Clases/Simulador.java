@@ -18,8 +18,8 @@ public class Simulador {
     private LEF LEF;
 
     
-    private int distribucionExponencial(double lambda, int x){
-        return (int)Math.round(lambda* Math.exp(lambda*-1* x));
+    private static int distribucion(double lambda, double x){
+        return (int)Math.round((-1/lambda)*Math.log(x));
         
     }
     private int generarNumPisoSolicitado(int pisoActual){ 
@@ -56,6 +56,7 @@ public class Simulador {
     }
     
     public void simular(){
+        inicializarVariables();
         while(reloj <= TIEMPOMAX){
             
             
@@ -72,18 +73,20 @@ public class Simulador {
         piso4 = new Piso(4);
         piso5 = new Piso(5);
         piso6 = new Piso(6);
+        generarLlegadas();
+        reloj = 0;
         
     }
     
     private void generarLlegadas(){
         int numPisoActual;
-        int veces = 25;
+        int veces = 100;
         int v=0;
-        while(v <= veces){
+        while(v < veces){
             int t;
             numPisoActual = (int)Math.round(Math.random()*5) + 1;
             if(numPisoActual == 1){
-                t = distribucionExponencial(0.0025, numLlegadas);
+                t = distribucion(0.0025, numLlegadas/100.0);
                 int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
                 piso1.agregarUsuarioCola(new Usuario(1, numPisoSolicitado));
             }else{
@@ -107,10 +110,11 @@ public class Simulador {
                     int numPisoSolicitado = generarNumPisoSolicitado(numPisoActual);
                     piso6.agregarUsuarioCola(new Usuario(6, numPisoSolicitado));    
                 }
-                t = distribucionExponencial(0.002, numLlegadas);
+                t = distribucion(0.002, numLlegadas/100.0);
             }
             
             LEF.agregarEvento(new Evento("L", reloj + t));
+            reloj += t;
             numLlegadas++;
             numPisoActual++;
         }
@@ -120,6 +124,8 @@ public class Simulador {
         
     }
     public static void main(String[]args){
+        
+        System.out.println(distribucion(0.0025, 1));
         
     }
     
