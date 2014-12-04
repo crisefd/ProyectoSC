@@ -75,9 +75,15 @@ public class Simulador {
 
         } else {
             if (tipo.equals("S")) {//solicitudes
+                generarEventoLlegada();
+                generarEventosSolicitud();
+                ascensor.realizarSigParada();
+                generarEventosParadas();
                
             } else {
                 if (tipo.equals("P")) {//parada
+                    generarEventoLlegada();
+                    
                 } else {
                     if (tipo.equals("V")) {//vaciado
                     }
@@ -89,7 +95,10 @@ public class Simulador {
 
     }
     
-    private void generarParadas(){
+    private void generarEventosParadas(){
+        
+        int oc = Ascensor.tDesplazamiento*Math.abs(ascensor.getPisoactual() -ascensor.getPisoAnterior()) + Ascensor.tDesplazamiento;
+        LEF.agregarEvento(new Evento("P", oc + reloj));
         
     }
 
