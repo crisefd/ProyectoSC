@@ -13,14 +13,14 @@ package Clases;
 public class Usuario {
     
     private int pisoActual, pisoSolicitado;
-    private int tiempoInicial, tiempoEsperaCola;
+    private int ti, tiempoEsperaCola;
     public static int latencia = 1;
     private boolean Estado; //true en el ascensor, false en la cola o desabordo.
     
     
     private void subirAscensor(int montados, int capacidadMax, int tf){
         
-        tiempoEsperaCola = tf- tiempoInicial;
+        tiempoEsperaCola = tf- ti;
         //verifica la capcidad del ascensor y si la gente montada es menor aborda de lo contrario espera.
         Estado = montados<capacidadMax;
         
@@ -49,7 +49,11 @@ public class Usuario {
     }
     
     public Usuario(int ti){
-        tiempoInicial = ti;
+        this.ti = ti;
+    }
+   
+    public void setTi(int ti){
+        this.ti = ti;
     }
     
     

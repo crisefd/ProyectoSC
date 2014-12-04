@@ -27,6 +27,7 @@ public class Piso {
    }
     public void agregarUsuarioCola(Usuario u){
         if(colaEspera.size()<=MAXCOLA){
+            
             colaEspera.add(u);
             tamanosColaEspera.add(colaEspera.size());    
         }
@@ -34,9 +35,14 @@ public class Piso {
     }
     public Usuario siguenteUsuarioCola(){
         Usuario s;
+        try{
         s=colaEspera.remove(0);
         tamanosColaEspera.add(colaEspera.size());
-        return s;
+         return s;
+        }catch(Exception ex){
+            return null;
+        }
+       
     }
     
     public int calcularPromedioCola(){

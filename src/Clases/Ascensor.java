@@ -17,10 +17,12 @@ public class Ascensor {
     public static int tDesplazamiento = 30, tArranque = 5;
     private boolean banderasSub[] = new boolean[6];
     private boolean banderasBaj[] = new boolean[6];
+    private ListaParadas listaParadas;
     //private ArrayList<Integer> listaParadas = new ArrayList<>();
 
     public Ascensor(int pisoactual) {
         this.pisoActual = pisoactual;
+        listaParadas = new ListaParadas();
     }
 
 //    public void agregarParada(int numPiso){
@@ -98,6 +100,10 @@ public class Ascensor {
 //            
 //        }
     // }
+    
+    public void agregarParada(int pisoActualUsuario, int pisoDeseadoUsuario){
+        listaParadas.agregar( pisoActualUsuario,  pisoDeseadoUsuario);
+    }
     private class ListaParadas {
 
         private Integer arreglo[] = {7, 7, 7, 7, 7, 7, -1, 0, 0, 0, 0, 0, 0};
@@ -110,7 +116,7 @@ public class Ascensor {
 
             if (dire == 1) {
                 for (int i = 0; i < 6; i++) {
-                    if (arreglo[i] == 7 && !banderasSub[i]) {
+                    if ((arreglo[i] == 7 || arreglo[i] == 0) && !banderasSub[i]) {
                         arreglo[i] = parada;
                         banderasSub[i] = true;
                         break;
@@ -118,7 +124,7 @@ public class Ascensor {
                 }
             } else {
                 for (int i = 6; i < 13; i++) {
-                    if (arreglo[i] == 0 && !banderasBaj[i]) {
+                    if ((arreglo[i] == 0 || arreglo[i] == 7) && !banderasBaj[i]) {
                         arreglo[i] = parada;
                         banderasBaj[i] = true;
                         break;
@@ -127,7 +133,7 @@ public class Ascensor {
             }
         }
 
-        public void agregarParada(int pisoActualUsuario, int pisoDeseadoUsuario) {
+        public void agregar(int pisoActualUsuario, int pisoDeseadoUsuario) {
 
             int dirUsuario;
             if (pisoActualUsuario - pisoDeseadoUsuario < 0) {
