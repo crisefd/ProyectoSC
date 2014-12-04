@@ -20,6 +20,7 @@ public class Ascensor {
     private ListaParadas listaParadas;
     private int pisoAnterior;
     
+    
     //private ArrayList<Integer> listaParadas = new ArrayList<>();
 
     public Ascensor(int pisoactual) {
@@ -42,6 +43,14 @@ public class Ascensor {
         }
         
         
+    }
+    
+    public int getDireccion(){
+        return direccion;
+    }
+    
+    public int calcularEspacioDisponible(){
+        return capacidadMax - montados;
     }
     
     public int getPisoAnterior(){
@@ -71,9 +80,7 @@ public class Ascensor {
         this.pisoActual = pisoactual;
     }
 
-    public int getDireccion() {
-        return direccion;
-    }
+   
 
     public void setDireccion(int direccion) {
         this.direccion = direccion;
