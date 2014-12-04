@@ -33,6 +33,14 @@ public class Piso {
         }
         
     }
+    
+    public void borrarUsuarioColaEspera(Usuario u){
+        colaEspera.remove(u);
+    }
+    
+    public ArrayList<Usuario> getColaEspera(){
+        return colaEspera;
+    }
     public Usuario siguenteUsuarioCola(){
         Usuario s;
         try{
