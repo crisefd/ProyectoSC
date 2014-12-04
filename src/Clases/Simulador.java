@@ -5,6 +5,8 @@
  */
 package Clases;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author crisefd
@@ -83,6 +85,8 @@ public class Simulador {
             } else {
                 if (tipo.equals("P")) {//parada
                     generarEventoLlegada();
+                    generarEventosSolicitud();
+                    generarEventosParadas();
                     
                 } else {
                     if (tipo.equals("V")) {//vaciado
@@ -107,60 +111,126 @@ public class Simulador {
         Usuario u ;
         int pisoDeseado;
         int pisoActual;
+        ArrayList<Usuario> cola;
+      
+        cola = piso1.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 1;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
+        }
         
         
-        u = piso1.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 1;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
+        
+        cola = piso2.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 2;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
         }
-
-
-        u = piso2.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 2;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
+        
+        cola = piso3.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 3;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
         }
-        u = piso3.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 3;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
+        
+        
+        cola = piso4.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 4;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
         }
-
-
-
-        u = piso4.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 4;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
+        
+        
+        cola = piso5.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 5;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
         }
-
-
-        u = piso5.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 5;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
+        
+        cola = piso6.getColaEspera();
+        for(Usuario us: cola){
+            pisoDeseado = us.getPisoSolicitado(); pisoActual = 6;
+            int dir;
+            if(pisoDeseado - pisoActual < 0){
+                dir = -1;
+            }else{
+                dir = 1;
+            }
+           
+            
+            if(dir == ascensor.getDireccion()){
+                piso1.borrarUsuarioColaEspera(us);
+                ascensor.agregarParada(pisoActual, pisoDeseado);
+                LEF.agregarEvento(new Evento("S", reloj));
+            }
+            
         }
-
-
-        u = piso6.siguenteUsuarioCola();
-        if (u != null) {
-            pisoDeseado = u.getPisoSolicitado();
-            pisoActual = 6;
-            ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("S", reloj));
-        }
-
+       
     }
 
     private void inicializarVariables() {
