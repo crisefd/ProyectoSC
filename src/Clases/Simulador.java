@@ -11,7 +11,8 @@ package Clases;
  */
 public class Simulador {
 
-    private int reloj = 0, numLlegadas = 0;
+    public static int reloj = 0;
+    private int numLlegadas = 0;
     private final int TIEMPOMAX = 500;
     private Ascensor ascensor;
     private Piso piso1, piso2, piso3, piso4, piso5, piso6;
@@ -68,12 +69,12 @@ public class Simulador {
         int oc = ev.getOc();
         String tipo = ev.getTipo();
         reloj = oc;
-        if (tipo.equals("L")) {//legada
-            generarLlegada();
-            generarSolicitudes();
+        if (tipo.equals("L")) {//llegada
+            generarEventoLlegada();
+            generarEventosSolicitud();
 
         } else {
-            if (tipo.equals("A")) {//arranque
+            if (tipo.equals("S")) {//solicitudes
                
             } else {
                 if (tipo.equals("P")) {//parada
@@ -87,8 +88,12 @@ public class Simulador {
 
 
     }
+    
+    private void generarParadas(){
+        
+    }
 
-    private void generarSolicitudes() {
+    private void generarEventosSolicitud() {
 
         Usuario u ;
         int pisoDeseado;
@@ -100,7 +105,7 @@ public class Simulador {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 1;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
 
 
@@ -109,14 +114,14 @@ public class Simulador {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 2;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
         u = piso3.siguenteUsuarioCola();
         if (u != null) {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 3;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
 
 
@@ -126,7 +131,7 @@ public class Simulador {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 4;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
 
 
@@ -135,7 +140,7 @@ public class Simulador {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 5;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
 
 
@@ -144,7 +149,7 @@ public class Simulador {
             pisoDeseado = u.getPisoSolicitado();
             pisoActual = 6;
             ascensor.agregarParada(pisoActual, pisoDeseado);
-            LEF.agregarEvento(new Evento("A", reloj));
+            LEF.agregarEvento(new Evento("S", reloj));
         }
 
     }
@@ -162,7 +167,7 @@ public class Simulador {
 
     }
 
-    private void generarLlegada() {
+    private void generarEventoLlegada() {
         int numPisoActual;
         //int veces = 100;
         //int v=0;
