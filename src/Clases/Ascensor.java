@@ -14,11 +14,12 @@ public class Ascensor {
     private int pisoActual, capacidadMax = 6, montados;
     private int direccion;
     ArrayList<Integer> listaMontados = new ArrayList();
-    public static int tDesplazamiento = 30, tArranque = 5;
+    public static final int tDesplazamiento = 30, tArranque = 5;
     private boolean banderasSub[] = new boolean[6];
     private boolean banderasBaj[] = new boolean[6];
     private ListaParadas listaParadas;
-    private int pisoObjetivo;
+    private int pisoAnterior;
+    
     //private ArrayList<Integer> listaParadas = new ArrayList<>();
 
     public Ascensor(int pisoactual) {
@@ -26,9 +27,10 @@ public class Ascensor {
         listaParadas = new ListaParadas();
     }
     
-    public void moverseUnPiso(){
+    public void realizarSigParada(){
         
         int dir = direccion;
+        pisoAnterior = pisoActual;
         pisoActual = listaParadas.funcion();
         
         if (dir == 1){
@@ -40,6 +42,14 @@ public class Ascensor {
         }
         
         
+    }
+    
+    public int getPisoAnterior(){
+        return pisoAnterior;
+    }
+    
+    public int getPisoActual(){
+        return pisoActual;
     }
 
 //    public void agregarParada(int numPiso){
