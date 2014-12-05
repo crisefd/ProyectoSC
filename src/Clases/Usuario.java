@@ -14,20 +14,27 @@ public class Usuario {
     
     private int pisoActual, pisoSolicitado;
     private int ti, tiempoEsperaCola;
-    public static int latencia = 1;
-    private boolean Estado; //true en el ascensor, false en la cola o desabordo.
+    public static final int latencia = 1;
+    private boolean estado; //true en el ascensor, false en la cola o desabordo.
     
     
-    private void subirAscensor(int montados, int capacidadMax, int tf){
+    public void subirAscensor(int montados, int capacidadMax, int tf){
         
         tiempoEsperaCola = tf- ti;
         //verifica la capcidad del ascensor y si la gente montada es menor aborda de lo contrario espera.
-        Estado = montados<capacidadMax;
+        estado = montados<capacidadMax;
         
     }
     private void bajarAscensor(){
         //verifica el piso actual si es el solicitado desaborda de lo contrario espera en ascensor.
-        Estado= pisoActual!=pisoSolicitado;
+        estado= pisoActual!=pisoSolicitado;
+    }
+    
+    public boolean seBaja(){
+        if(pisoActual== pisoSolicitado){
+            return true;
+        }
+        return false;
     }
     private void solicitarAscensor(){
        // Simulador.recibirSolicitud(pisoSolicitado);
@@ -39,7 +46,7 @@ public class Usuario {
         return pisoSolicitado;
     }
     public boolean getEstado(){
-        return Estado;
+        return estado;
     }
     
     public Usuario(int pa, int ps){

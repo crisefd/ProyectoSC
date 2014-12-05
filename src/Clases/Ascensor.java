@@ -11,14 +11,15 @@ import java.util.Collections;
 
 public class Ascensor {
 
-    private int pisoActual, capacidadMax = 6, montados;
+    private int pisoActual, capacidadMax = 6, montados = 0;
     private int direccion;
-    ArrayList<Integer> listaMontados = new ArrayList();
+    ArrayList<Integer> variacionesMontados = new ArrayList();
     public static final int tDesplazamiento = 30, tArranque = 5;
     private boolean banderasSub[] = new boolean[6];
     private boolean banderasBaj[] = new boolean[6];
     private ListaParadas listaParadas;
     private int pisoAnterior;
+    private ArrayList<Usuario> listaUsuariosMontados = new ArrayList<>();
     
     
     //private ArrayList<Integer> listaParadas = new ArrayList<>();
@@ -60,6 +61,12 @@ public class Ascensor {
     public int getPisoActual(){
         return pisoActual;
     }
+    
+    public int getMontados(){
+        return listaUsuariosMontados.size();
+    }
+    
+    
 
 //    public void agregarParada(int numPiso){
 //        buscarInsertar(numPiso, 0, listaParadas.size() - 1);
@@ -86,15 +93,15 @@ public class Ascensor {
         this.direccion = direccion;
     }
 
-    public void recogerUsuarios(int usuarios) {
+    private void abordarAux(int usuarios) {
         montados += usuarios;
-        listaMontados.add(montados);
+        variacionesMontados.add(montados);
 
     }
 
     public void bajarUsuarios(int usuarios) {
         montados -= usuarios;
-        listaMontados.add(montados);
+        variacionesMontados.add(montados);
     }
 
     public void direccionarse(int direccion) {
@@ -108,10 +115,10 @@ public class Ascensor {
     public int calcularPromedioMontados() {
         int total = 0;
 
-        for (int n : listaMontados) {
+        for (int n : variacionesMontados) {
             total += n;
         }
-        return (int) total / listaMontados.size();
+        return (int) total / variacionesMontados.size();
     }
 
     private void invertirDireccion(){
@@ -123,26 +130,34 @@ public class Ascensor {
             }
         }
     }
-//    private int buscarInsertar(int numPiso, int i, int f){
-//        int tam = f - i + 1;
-//        int m = tam/2 - 1 + i;
-//        if (tam == 1){
-//            if (numPiso < listaParadas.get(i)){
-//                listaParadas.add(i, numPiso);
-//            }else{
-//                listaParadas.add(numPiso);
-//            }
-//            return 0;
-//        }else{
-//            
-//            if(numPiso < listaParadas.get(m)){
-//                return buscarInsertar(numPiso, i, m);
-//            }else{
-//                return buscarInsertar(numPiso, m + 1, f);
-//            }
-//            
-//        }
-    // }
+    public void actualizarPisoUsuarios(){
+        for (int i = 0; i < listaUsuariosMontados.size(); i++) {
+            listaUsuariosMontados.get(i).setPisoActual(pisoActual);
+        }
+    }
+    public void desabordarUsuarios(){
+        int i = 0; int lim = listaUsuariosMontados.size();
+        while(i < lim){
+            if(listaUsuariosMontados.get(i).seBaja()){
+                listaUsuariosMontados.remove(i);
+                i--;
+                lim--;
+            }
+            i++;
+        }
+    }
+    public void abordarUsuarios(Piso piso){
+        
+        ArrayList<Usuario> cola = piso.getColaEspera();
+        
+        for(Usuario u: cola){
+            u.subirAscensor(montados, capacidadMax, Simulador.reloj);
+            listaUsuariosMontados.add(u);
+            piso.borrarUsuarioColaEspera(u);
+            
+        }
+    }
+    
     
     public void agregarParada(int pisoActualUsuario, int pisoDeseadoUsuario){
         listaParadas.agregar( pisoActualUsuario,  pisoDeseadoUsuario);
