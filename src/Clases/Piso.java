@@ -39,6 +39,7 @@ public class Piso {
     }
     
     public ArrayList<Usuario> getColaEspera(){
+        System.out.println("Usuarios en la cola del piso "+numeroPiso+": "+colaEspera.size());
         return colaEspera;
     }
     public Usuario siguenteUsuarioCola(){

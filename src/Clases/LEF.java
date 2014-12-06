@@ -43,7 +43,11 @@ public class LEF extends ArrayList<Evento>{
             return;
         }
         int tam = f - i + 1;
-        int m = tam/2 - 1 + i;
+        int m = 0;
+        if (f != 0 && i != 0){
+            m =tam/2 - 1 + i;
+        }
+          System.out.println("=>INSERCION EN LA LEF");
           System.out.println("i = "+ i);
           System.out.println("m = "+ m);
           System.out.println("f = "+ f);
@@ -67,7 +71,7 @@ public class LEF extends ArrayList<Evento>{
 
             }
         }catch(ArrayIndexOutOfBoundsException ex){
-            System.out.println("==================");
+            System.out.println(">>>LEF ERROR<<<");
             System.out.println("i = "+ i);
             System.out.println("m = "+ m);
             System.out.println("f = "+ f);

@@ -15,11 +15,11 @@ public class Simulador {
 
     public static int reloj = 0;
     private int numLlegadas = 1;
-    private final int TIEMPOMAX = 20000;
+    private final int TIEMPOMAX = 8000;
     private Ascensor ascensor;
     private Piso piso1, piso2, piso3, piso4, piso5, piso6;
     private LEF LEF;
-    private int e=0;
+//    private int e=0;
     private static int distribucion(double lambda, double x) {
         return (int) Math.round((-1 / lambda) * Math.log(x));
 
@@ -64,6 +64,7 @@ public class Simulador {
          int c = 0;
         while (reloj <= TIEMPOMAX) {
             System.out.println("=============================\n iteracion: "+ c);
+            System.out.println("Tamano LEF: "+ LEF.size());
             Evento ev = LEF.siguienteEvento();
             System.out.print("Evento atendido: ");
             System.out.print("tipo: "+ev.getTipo()+", ");
@@ -82,14 +83,9 @@ public class Simulador {
         String tipo = ev.getTipo();
         reloj = oc;
         if (tipo.equals("L")) {//llegada
-            int a = (int)Math.round(Math.random());
-                
-            if(e==0){generarEventoLlegada();}
-            e=1; 
+            generarEventoLlegada();
             generarEventosSolicitud();
-            
-            
-
+     
         } else {
             if (tipo.equals("S")) {//solicitudes
                
@@ -168,11 +164,12 @@ public class Simulador {
                 dir = 1;
             }
 
-
-            if (dir == ascensor.getDireccion()) {
+           
+            if (dir == ascensor.getDireccion() || ascensor.getDireccion() == 0) {
                 //    piso1.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("A");
             }
 
         }
@@ -191,10 +188,11 @@ public class Simulador {
             }
 
 
-            if (dir == ascensor.getDireccion()) {
+            if (dir == ascensor.getDireccion()|| ascensor.getDireccion() == 0) {
                 //   piso2.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("B");
             }
 
         }
@@ -211,10 +209,11 @@ public class Simulador {
             }
 
 
-            if (dir == ascensor.getDireccion()) {
+            if (dir == ascensor.getDireccion() || ascensor.getDireccion() == 0) {
                 //  piso3.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("C");
             }
 
         }
@@ -232,10 +231,11 @@ public class Simulador {
             }
 
 
-            if (dir == ascensor.getDireccion()) {
+            if (dir == ascensor.getDireccion() || ascensor.getDireccion() == 0) {
                 //  piso4.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("D");
             }
 
         }
@@ -253,10 +253,11 @@ public class Simulador {
             }
 
 
-            if (dir == ascensor.getDireccion()) {
+            if (dir == ascensor.getDireccion() || ascensor.getDireccion() == 0) {
                 // piso5.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("E");
             }
 
         }
@@ -273,10 +274,11 @@ public class Simulador {
             }
 
 
-            if (dir == ascensor.getDireccion()) {
+            if (dir == ascensor.getDireccion() || ascensor.getDireccion() == 0) {
                 //piso6.borrarUsuarioColaEspera(us);
                 ascensor.agregarParada(pisoActual, pisoDeseado);
                 LEF.agregarEvento(new Evento("S", reloj));
+                 System.out.println("F");
             }
 
         }
@@ -351,7 +353,8 @@ public class Simulador {
             }
             t = distribucion(0.002, numLlegadas / 100.0);
         }
-         System.out.println("reloj: "+reloj+", t: "+ t);
+        // System.out.println("reloj: "+reloj+", t: "+ t);
+         System.out.println("Llegada en piso: "+numPisoActual);
         LEF.agregarEvento(new Evento("L", reloj + t));
       //  System.out.println("YY");
         //reloj += t;

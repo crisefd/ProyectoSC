@@ -12,7 +12,7 @@ import java.util.Collections;
 public class Ascensor {
 
     private int pisoActual, capacidadMax = 6, montados = 0;
-    private int direccion;
+    private int direccion = 0;
     ArrayList<Integer> variacionesMontados = new ArrayList();
     public static final int tDesplazamiento = 30, tArranque = 5;
     private boolean banderasSub[] = new boolean[6];
