@@ -20,6 +20,7 @@ public class Ascensor {
     private ListaParadas listaParadas;
     private int pisoAnterior;
     private ArrayList<Usuario> listaUsuariosMontados = new ArrayList<>();
+    private int numParadas = 0;
     
     
     //private ArrayList<Integer> listaParadas = new ArrayList<>();
@@ -30,19 +31,23 @@ public class Ascensor {
     }
     
     public void realizarSigParada(){
-        
+        System.out.println("Direccion de la sig parada: "+direccion);
         int dir = direccion;
         pisoAnterior = pisoActual;
-        pisoActual = listaParadas.funcion();
-        
-        if (dir == 1){
-            banderasSub[pisoActual - 1] = false;
-        }else{
-            if(dir == -1){
-                banderasBaj[pisoActual - 1] = false;
+        pisoActual = listaParadas.recorrerParadas();
+        System.out.println("Piso actual actualizado: "+pisoActual);
+        try{
+            if (dir == 1){
+                banderasSub[pisoActual - 1] = false;
+            }else{
+                if(dir == -1){
+                    banderasBaj[pisoActual - 1] = false;
+                }
             }
+        }catch(ArrayIndexOutOfBoundsException ex){
+            System.err.println("piso actual cuando ocurrio ex: "+pisoActual);
+            System.exit(1);
         }
-        
         
     }
     
@@ -79,11 +84,11 @@ public class Ascensor {
         this.capacidadMax = capacidadMax;
     }
 
-    public int getPisoactual() {
-        return pisoActual;
-    }
+//    public int getPisoactual() {
+//        return pisoActual;
+//    }
 
-    public void setPisoactual(int pisoactual) {
+    public void setPisoActual(int pisoactual) {
         this.pisoActual = pisoactual;
     }
 
@@ -140,6 +145,7 @@ public class Ascensor {
         while(i < lim){
             if(listaUsuariosMontados.get(i).seBaja()){
                 listaUsuariosMontados.remove(i);
+                
                 i--;
                 lim--;
             }
@@ -150,38 +156,46 @@ public class Ascensor {
         
         ArrayList<Usuario> cola = piso.getColaEspera();
         
-        for(Usuario u: cola){
+        for(int i = 0; i< cola.size(); i++){
+            Usuario u = cola.get(i);
             u.subirAscensor(montados, capacidadMax, Simulador.reloj);
             listaUsuariosMontados.add(u);
+            numParadas--;
+            //System.out.println("Usuarios ascensor: "+ getMontados());
             piso.borrarUsuarioColaEspera(u);
             
+        }
+        if(numParadas == 0){
+            direccion = 0;
         }
     }
     
     
     public void agregarParada(int pisoActualUsuario, int pisoDeseadoUsuario){
+        numParadas++;
         listaParadas.agregar( pisoActualUsuario,  pisoDeseadoUsuario);
     }
     
     
     private class ListaParadas {
 
-        private Integer arreglo[] = {7, 7, 7, 7, 7, 7, -1, 0, 0, 0, 0, 0, 0};
+        private Integer paradas[] = {7, 7, 7, 7, 7, 7, -1, 0, 0, 0, 0, 0, 0};
 
-       public int funcion(){
+       public int recorrerParadas(){
            if(direccion == 1){
                int i = 0;
                while(true){
-                   if(arreglo[i] == -1){
+                   if(paradas[i] == -1){
                        invertirDireccion();
                        break;
                    }
-                   if(arreglo[i] != 7 && arreglo[i] != 0){
-                       int r = arreglo[i];
-                       arreglo[i] = 0;
+                   if(paradas[i] < 7 && paradas[i] > 0){
+                       int r = paradas[i];
+                       paradas[i] = 0;
                        return r;
                    }
-                   
+                   System.out.println("bucle 1");
+                   i++;
                }
            }else{
                if(direccion == -1){
@@ -191,34 +205,35 @@ public class Ascensor {
                            invertirDireccion();
                            break;
                        }
-                       if(arreglo[i] != 7 && arreglo[i] != 0){
-                           int r = arreglo[i];
-                           arreglo[i] = 7;
+                       if(paradas[i] < 7 && paradas[i] > 0){
+                           int r = paradas[i];
+                           paradas[i] = 7;
                            return r;
                        }
-                       
+                       i++;
+                        System.out.println("bucle 2");
                    }
                    
                }
            }
            
-           return 10;
+           return pisoActual;
        }
         private void agregarArr(int parada, int dire) {
 
             if (dire == 1) {
                 for (int i = 0; i < 6; i++) {
-                    if ((arreglo[i] == 7 || arreglo[i] == 0) && !banderasSub[i]) {
-                        arreglo[i] = parada;
+                    if ((paradas[i] == 7 || paradas[i] == 0) && !banderasSub[i]) {
+                        paradas[i] = parada;
                         banderasSub[i] = true;
                         break;
                     }
                 }
             } else {
-                for (int i = 6; i < 13; i++) {
-                    if ((arreglo[i] == 0 || arreglo[i] == 7) && !banderasBaj[i]) {
-                        arreglo[i] = parada;
-                        banderasBaj[i] = true;
+                for (int i = 7; i < 13; i++) {
+                    if ((paradas[i] == 0 || paradas[i] == 7) && !banderasBaj[i - 7]) {
+                        paradas[i] = parada;
+                        banderasBaj[i - 7] = true;
                         break;
                     }
                 }
@@ -230,41 +245,47 @@ public class Ascensor {
             int dirUsuario;
             if (pisoActualUsuario - pisoDeseadoUsuario < 0) {
                 dirUsuario = 1;//subida
+                if (direccion == 0){
+                    direccion = dirUsuario;
+                }
             } else {
                 dirUsuario = -1;//bajada
+                if (direccion == 0){
+                    direccion = dirUsuario;
+                }
             }
             
             if (dirUsuario == direccion && direccion == 1 && pisoDeseadoUsuario > pisoActual) {
                 Integer[] a = new Integer[6];
                 agregarArr(pisoActualUsuario, 1);
                 agregarArr(pisoDeseadoUsuario, 1);
-                System.arraycopy(arreglo, 0, a, 0, 6);
+                System.arraycopy(paradas, 0, a, 0, 6);
                 Arrays.sort(a);
-                System.arraycopy(a, 0, arreglo, 0, 6);
+                System.arraycopy(a, 0, paradas, 0, 6);
             } else {
                 if (dirUsuario == direccion && direccion == 1 && pisoDeseadoUsuario < pisoActual) {
                     Integer[] a = new Integer[6];
                     Integer[] b = new Integer[6];
                     agregarArr(pisoActualUsuario, -1);
                     agregarArr(pisoDeseadoUsuario, 1);
-                    System.arraycopy(arreglo, 7, a, 7, 6);
-                    Arrays.sort(a, Collections.reverseOrder());
-                    System.arraycopy(a, 7, arreglo, 7, 6);
+                    System.arraycopy(paradas, 7, b, 0, 6);
+                    Arrays.sort(b, Collections.reverseOrder());
+                    System.arraycopy(b, 0, paradas, 7, 6);
 
-                    System.arraycopy(arreglo, 0, a, 0, 6);
-                    Arrays.sort(b);
-                    System.arraycopy(a, 0, arreglo, 0, 6);
+                    System.arraycopy(paradas, 0, a, 0, 6);
+                    Arrays.sort(a);
+                    System.arraycopy(a, 0, paradas, 0, 6);
 
 
                 } else {
                     if (dirUsuario == direccion && direccion == -1 && pisoDeseadoUsuario < pisoActual) {
-                        Integer[] a = new Integer[6];
+                        Integer[] b = new Integer[6];
                         agregarArr(pisoActualUsuario, -1);
                         agregarArr(pisoDeseadoUsuario, -1);
 
-                        System.arraycopy(arreglo, 7, a, 7, 6);
-                        Arrays.sort(a, Collections.reverseOrder());
-                        System.arraycopy(a, 7, arreglo, 7, 6);
+                        System.arraycopy(paradas, 7, b, 0, 6);
+                        Arrays.sort(b, Collections.reverseOrder());
+                        System.arraycopy(b, 0, paradas, 7, 6);
 
 
                     } else {
@@ -274,13 +295,13 @@ public class Ascensor {
                             Integer[] b = new Integer[6];
                             agregarArr(pisoActualUsuario, 1);
                             agregarArr(pisoDeseadoUsuario, -1);
-                            System.arraycopy(arreglo, 7, a, 7, 6);
-                            Arrays.sort(a, Collections.reverseOrder());
-                            System.arraycopy(a, 7, arreglo, 7, 6);
+                            System.arraycopy(paradas, 0, b, 0, 6);
+                            Arrays.sort(b, Collections.reverseOrder());
+                            System.arraycopy(b, 0, paradas, 7, 6);
 
-                            System.arraycopy(arreglo, 0, a, 0, 6);
-                            Arrays.sort(b);
-                            System.arraycopy(a, 0, arreglo, 0, 6);
+                            System.arraycopy(paradas, 0, a, 0, 6);
+                            Arrays.sort(a);
+                            System.arraycopy(a, 0, paradas, 0, 6);
 
 
                         } else {
@@ -288,18 +309,18 @@ public class Ascensor {
                                 Integer[] a = new Integer[6];
                                 agregarArr(pisoActualUsuario, 1);
                                 agregarArr(pisoDeseadoUsuario, 1);
-                                System.arraycopy(arreglo, 0, a, 0, 6);
+                                System.arraycopy(paradas, 0, a, 0, 6);
                                 Arrays.sort(a);
-                                System.arraycopy(a, 0, arreglo, 0, 6);
+                                System.arraycopy(a, 0, paradas, 0, 6);
                             } else {
                                 if (dirUsuario == -1 && direccion == 1) {
-                                    Integer[] a = new Integer[6];
+                                    Integer[] b = new Integer[6];
                                     agregarArr(pisoActualUsuario, -1);
                                     agregarArr(pisoDeseadoUsuario, -1);
 
-                                    System.arraycopy(arreglo, 7, a, 7, 6);
-                                    Arrays.sort(a, Collections.reverseOrder());
-                                    System.arraycopy(a, 7, arreglo, 7, 6);
+                                    System.arraycopy(paradas, 7, b, 0, 6);
+                                    Arrays.sort(b, Collections.reverseOrder());
+                                    System.arraycopy(b, 0, paradas, 7, 6);
 
 
                                 }

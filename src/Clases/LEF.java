@@ -47,10 +47,10 @@ public class LEF extends ArrayList<Evento>{
         if (f != 0 && i != 0){
             m =tam/2 - 1 + i;
         }
-          System.out.println("=>INSERCION EN LA LEF");
-          System.out.println("i = "+ i);
-          System.out.println("m = "+ m);
-          System.out.println("f = "+ f);
+         // System.out.println("=>INSERCION EN LA LEF");
+          //System.out.println("i = "+ i);
+          //System.out.println("m = "+ m);
+          //System.out.println("f = "+ f);
             //System.out.println("tam = "+ size());
        
         try{
