@@ -13,9 +13,12 @@ import java.util.ArrayList;
  */
 public class Piso {
     
-   ArrayList <Usuario>colaEspera;
-   ArrayList <Integer> tamanosColaEspera;
+   private ArrayList <Usuario>colaEspera;
+   private ArrayList <Integer> tamanosColaEspera;
+   private int numRechazados = 0;
+   private int numAtendidos = 0;
    final int  MAXCOLA=10;
+   
    int numeroPiso;
 
    
@@ -29,9 +32,21 @@ public class Piso {
         if(colaEspera.size()<=MAXCOLA){
             
             colaEspera.add(u);
-            tamanosColaEspera.add(colaEspera.size());    
+            tamanosColaEspera.add(colaEspera.size()); 
+            numAtendidos++;
+            //System.out.println(">>>>>>> "+numAtendidos);
+        }else{
+            numRechazados++;
         }
         
+    }
+    
+    public int getNumRechazados(){
+        return numRechazados;
+    }
+    
+    public int getNumAtendidos(){
+        return numAtendidos;
     }
     
     public void borrarUsuarioColaEspera(Usuario u){
@@ -60,7 +75,13 @@ public class Piso {
         for(int n: tamanosColaEspera){
            total+= n;
         }
-        return (int) total/tamanosColaEspera.size();
+        int promedio = 0;
+        try{
+            promedio = (int)total/tamanosColaEspera.size();
+        }catch(ArithmeticException ex){
+            promedio = 0;
+        }
+        return promedio;
     }
    public int getNumeroPiso(){
        return numeroPiso;

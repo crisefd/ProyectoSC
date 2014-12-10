@@ -18,11 +18,17 @@ public class Usuario {
     private boolean estado; //true en el ascensor, false en la cola o desabordo.
     
     
-    public void subirAscensor(int montados, int capacidadMax, int tf){
+    public boolean subirAscensor(int montados, int capacidadMax, int tf){
         
-        tiempoEsperaCola = tf- ti;
+        if(montados < capacidadMax){
+            tiempoEsperaCola = tf- ti;
+            Simulador.tEsperaTotal += tiempoEsperaCola;
+            estado = true;
+        }else{
+            estado = false;
+        }
         //verifica la capcidad del ascensor y si la gente montada es menor aborda de lo contrario espera.
-        estado = montados<capacidadMax;
+       return  estado;
         
     }
     private void bajarAscensor(){

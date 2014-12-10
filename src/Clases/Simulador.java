@@ -15,10 +15,14 @@ public class Simulador {
 
     public static int reloj = 0;
     private int numLlegadas = 1;
-    private final int TIEMPOMAX = 800;
+    private final int TIEMPOMAX = 1000;
     private Ascensor ascensor;
+    public static int tEsperaTotal = 0;
+    
     private Piso piso1, piso2, piso3, piso4, piso5, piso6;
     private LEF LEF;
+    private int usuariosAbordados = 0, usuariosDesabordados = 0;
+    
 //    private int e=0;
     private static int distribucion(double lambda, double x) {
         return (int) Math.round((-1 / lambda) * Math.log(x));
@@ -76,7 +80,30 @@ public class Simulador {
             ejecutarEvento(ev);
 
         }
+        System.out.println(">>>>>>>>>>>>>>>> VARIABLES DE DESEMPEÑO <<<<<<<<<<<<<<<<<<<<<<<< ");
+        System.out.println("Tiempo promedio de espera: "+ (double)tEsperaTotal / (double)numLlegadas);
+        System.out.println("Tamano promedio de cola de piso 1: "+ piso1.calcularPromedioCola());
+        System.out.println("Tamano promedio de cola de piso 2: "+ piso2.calcularPromedioCola());
+        System.out.println("Tamano promedio de cola de piso 3: "+ piso3.calcularPromedioCola());
+        System.out.println("Tamano promedio de cola de piso 4: "+ piso4.calcularPromedioCola());
+        System.out.println("Tamano promedio de cola de piso 5: "+ piso5.calcularPromedioCola());
+        System.out.println("Tamano promedio de cola de piso 6: "+ piso6.calcularPromedioCola());
+        System.out.println("Porcentaje de atendidos: "+ calcularAtendidos()*100.0/(double)(numLlegadas - 1));
+        System.out.println("Capacidad ocupada promedio: "+ ascensor.calcularCapacidadPromedio());
         System.out.println("Fin");
+    }
+    
+    private int calcularAtendidos(){
+        int res = 0;
+        res += piso1.getNumAtendidos();
+        res += piso2.getNumAtendidos();
+        res += piso3.getNumAtendidos();
+        res += piso4.getNumAtendidos();
+        res += piso5.getNumAtendidos();
+        res += piso6.getNumAtendidos();
+        //System.out.println("Total atendidos: " + res);
+       // System.out.println("Total que solicitaron: "+ numLlegadas);
+        return res;
     }
 
     private void ejecutarEvento(Evento ev) {
@@ -111,7 +138,8 @@ public class Simulador {
 
     private void generarEventosParadas() {
 
-        int oc = Ascensor.tDesplazamiento * Math.abs(ascensor.getPisoActual() - ascensor.getPisoAnterior()) + Ascensor.tDesplazamiento;
+        int oc = usuariosAbordados + Ascensor.tDesplazamiento * Math.abs(ascensor.getPisoActual() - 
+                ascensor.getPisoAnterior()) + Ascensor.tArranque + usuariosDesabordados;
         LEF.agregarEvento(new Evento("P", oc + reloj));
 
     }
@@ -119,36 +147,39 @@ public class Simulador {
     private void abordar_desabordar(int piso) {
         System.out.println("Ascensor parando en piso "+piso);
         ascensor.actualizarPisoUsuarios();
+        usuariosDesabordados = 0;
+        usuariosAbordados = 0;
+        
         switch (piso) {
 
             case 1:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso1);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso1);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
             case 2:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso2);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso2);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
             case 3:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso3);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso3);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
             case 4:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso4);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso4);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
             case 5:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso5);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso5);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
             case 6:
-                ascensor.desabordarUsuarios();
-                ascensor.abordarUsuarios(piso6);
+                usuariosDesabordados = ascensor.desabordarUsuarios();
+                usuariosAbordados = ascensor.abordarUsuarios(piso6);
                 System.out.println("Usuarios ascensor: "+ ascensor.getMontados());
                 break;
 
